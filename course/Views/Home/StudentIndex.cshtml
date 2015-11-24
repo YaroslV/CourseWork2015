@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Проведення лекцій";
+}
+
+<h2>Всі лекції</h2>
+
+<div ng-app="atLectures">
+    <div ng-controller="StudentController">
+        <input ng-model="searchText" ng-change="doSearch()" />            
+        <select ng-model="selectedDiscipline">
+            <option ng-repeat="discipline in allDisciplines" value="{{discipline}}">{{discipline}}</option>
+        </select>    
+        <table class="table">
+
+            <tr ng-repeat="lecture in lectures" >
+                <td>{{lecture.LectureName}}</td>
+                <td>{{lecture.Discipline}}</td>
+                <td>{{lecture.Date}}</td>                
+            </tr>
+        </table>      
+        <br/>
+        <button ng-click="moreLectures()" class="btn btn-default">Більше лекцій</button>
+    </div>
+</div>
+
+@section  scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/app/scripts/atLectures.js"></script>
+    <script src="~/Scripts/app/scripts/StudentController.js"></script>
+}
