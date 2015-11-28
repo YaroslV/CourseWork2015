@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using course.Models;
+using AspNet.Identity.CustomDatabase;
+using course.Managers;
+using course.Data;
 
 namespace course.Controllers
 {
@@ -151,25 +154,63 @@ namespace course.Controllers
         {
             if (ModelState.IsValid)
             {
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
                 var user = new AppUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (model.AppRole == Role.Student)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string role = Role.Student.ToString();
 
-                    return RedirectToAction("Index", "Home");
+                    //adding new client as student
+                    if (!roleManager.RoleExists(role))
+                    {
+                        roleManager.Create(new IdentityRole(role));
+                    }
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        UserManager.AddToRole(user.Id, role);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        return RedirectToAction("StudentIndex", "Home");
+                    }
+
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                else if (model.AppRole == Role.Tutor)
+                {
+                    string role = Role.Tutor.ToString();
+                    if (!roleManager.RoleExists(role))
+                    {
+                        roleManager.Create(new IdentityRole(role));
+                    }
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        var tutorRequestManager = new TutorManager<TutorRequestStore,TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+                        await tutorRequestManager.AddTutorRequest(new TutorRequest() {
+                            RequesterId = user.Id,
+                            RequestId = Guid.NewGuid().ToString()
+                        });
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        return View("TutorInvitation");
+                    }
+
+                    AddErrors(result);
+                }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+
         }
 
         //

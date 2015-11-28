@@ -13,6 +13,7 @@ namespace course.Controllers
             return View();
         }
 
+        [Authorize(Roles ="Student")]
         public ActionResult StudentIndex()
         {
             return View();
