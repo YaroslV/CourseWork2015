@@ -5,10 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using course.Models;
+using course.Data;
+using course.Managers;
+using System.Threading.Tasks;
 
 namespace course.Controllers
 {
     [RoutePrefix("api/lectures")]
+    [Authorize]
     public class TestController : ApiController
     {
         private IEnumerable<Lecture> lectures = new List<Lecture>
@@ -65,20 +69,44 @@ namespace course.Controllers
             return result;
         }
 
-        [Route("{discipline}")]
+        [Route("disciplines")]
         public IEnumerable<string> GetDisciplines()
         {
             IEnumerable<string> result = lectures
                 .Select(l => l.Discipline)
                 .Distinct();
 
-            return result;                             
-                                    
+            return result;
+
         }
+
+        [Authorize(Roles ="Admin")]
+        [Route("tutorrequests")]
+        [HttpGet]
+        public async Task<IEnumerable<RequestInfo>> GetTutorRequests()
+        {
+            var tutorManager = 
+                new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+
+            var result = await tutorManager.GetRequestInfo();
+            return result;
+        }
+
+        [Authorize(Roles="Admin")]
+        [Route("tutoractivation")]
+        [HttpPost]
+        public  async Task<IHttpActionResult> ActivateTutor([FromBody]TutorToActivate tutor)
+        {
+                      
+
+            return Ok();
+        }
+
 
         // POST: api/Test
         public void Post([FromBody]string value)
-        {
+        { 
+
         }
 
         // PUT: api/Test/5

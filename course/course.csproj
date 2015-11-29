@@ -188,6 +188,7 @@
     <Compile Include="IdentityExtensions\CustomUserValidator.cs" />
     <Compile Include="Managers\TutorManager.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ControllerViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lecture.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -206,6 +207,7 @@
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\app\scripts\AdminController.js" />
     <Content Include="Scripts\app\scripts\atLectures.js" />
     <Content Include="Scripts\app\scripts\StudentController.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -261,6 +263,7 @@
     <Content Include="Views\Home\TutorIndex.cshtml" />
     <Content Include="Views\Home\StudentIndex.cshtml" />
     <Content Include="Views\Account\TutorInvitation.cshtml" />
+    <Content Include="Views\Home\AdminIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

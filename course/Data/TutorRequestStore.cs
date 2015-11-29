@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.CustomDatabase;
+using course.Models;
 
 namespace course.Data
 {
@@ -34,7 +35,18 @@ namespace course.Data
 
         public Task<IQueryable<TutorRequest>> GetAllRequests()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException();            
+        }
+
+        public Task<IEnumerable<RequestInfo>> GetAllRequestInfos()
+        {
+            string query = "select * from table(slavko_func())";
+            Dictionary<String, object> parameters = new Dictionary<string, object>();
+            var result = _database.Query(query, parameters)
+                .Select(t => new RequestInfo { TutorId = t["USERID"], TutorName = t["USERNAME"] });
+                
+
+            return Task.FromResult(result);
         }
 
         public Task RemoveRequest(string requestId)

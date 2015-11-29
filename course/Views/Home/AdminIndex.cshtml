@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Адміністратор";
+}
+
+<h2>Список викладачів, хто потребують підтвердження</h2>
+
+<div ng-app="atLectures">
+    <div ng-controller="AdminController">
+        <p class="alert-warning" >{{ctrlData.err_msg}}</p>
+        <table class="table">
+            <tr ng-repeat="request in ctrlData.requests">
+                <td>{{request.TutorName}}</td>
+                <td><button ng-click="activateTutor(request.TutorId)" class="btn default">Підтвердити</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/app/scripts/atLectures.js"></script>
+    <script src="~/Scripts/app/scripts/AdminController.js"></script>    
+}
+

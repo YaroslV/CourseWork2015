@@ -89,7 +89,7 @@ namespace course.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Помилка входу, не правильний пошта або пароль");
                     return View(model);
             }
         }

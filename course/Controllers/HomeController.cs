@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using course.Models;
+using AspNet.Identity.CustomDatabase;
 
 namespace course.Controllers
 {
@@ -10,7 +13,26 @@ namespace course.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var userManager = new UserManager<AppUser>(new UserStore<AppUser>(new ApplicationDbContext()));
+            if(userId == null)
+            {
+                return View();
+            }
+            else if(userManager.IsInRole(userId, Role.Student.ToString()))
+            {
+                return RedirectToAction("StudentIndex","Home");
+            }
+            else if(userManager.IsInRole(userId, Role.Tutor.ToString()))
+            {
+                return RedirectToAction("TutorIndex","Home");
+            }
+            else if(userManager.IsInRole(userId, "Admin"))
+            {
+                return RedirectToAction("AdminIndex","Home");
+            }
+
+            return View();            
         }
 
         [Authorize(Roles ="Student")]
@@ -18,8 +40,13 @@ namespace course.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles ="Tutor")]
         public ActionResult TutorIndex()
+        {
+            return View();
+        }
+        [Authorize(Roles ="Admin")]
+        public ActionResult AdminIndex()
         {
             return View();
         }

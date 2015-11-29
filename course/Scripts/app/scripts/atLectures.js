@@ -10,10 +10,21 @@
             return $http.get('/api/lectures/disciplines');
         }
 
+        var getTutorRequests = function () {
+            return $http.get('/api/lectures/tutorrequests');
+        }
+
+        var activateTutor = function (id) {
+            return $http.post('/api/lectures/tutoractivation', {"TutorId":id});
+            
+        }
 
         return {
             getLectures: getLectures,
-            getAllDisciplines: getAllDisciplines
+            getAllDisciplines: getAllDisciplines,
+            getTutorRequests: getTutorRequests,
+            activateTutor: activateTutor
+
         };
     }]);
 
