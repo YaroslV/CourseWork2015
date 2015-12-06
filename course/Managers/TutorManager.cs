@@ -41,5 +41,17 @@ namespace course.Managers
         {
             _lectureTable.Insert(lecture);
         }
+
+        public IEnumerable<Lecture> GetAllLectures()
+        {
+            var res = _lectureTable.GetAll();
+            return res;
+        }
+
+        public IEnumerable<string> GetAllDisciplines()
+        {
+            var res = _lectureTable.GetAllSubjects();
+            return res;
+        }
     }
 }

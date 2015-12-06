@@ -11,11 +11,19 @@
             <option ng-repeat="discipline in allDisciplines" value="{{discipline}}">{{discipline}}</option>
         </select> 
         <table class="table">
-
+            <tr>
+                <th>Назва лекції</th>
+                <th>Предмет</th>
+                <th>Дата</th>
+                <th>Контакти викладача</th>
+                <th></th>
+            </tr>
             <tr ng-repeat="lecture in lectures" >
-                <td>{{lecture.LectureName}}</td>
-                <td>{{lecture.Discipline}}</td>
+                <td>{{lecture.LectureText}}</td>
+                <td>{{lecture.Subject}}</td>
                 <td>{{lecture.Date}}</td>                
+                <td>{{lecture.TutorId}}</td>
+                <td><a href="#/more/{{lecture.LectureId}}" class="btn btn-default">Більше</a></td>
             </tr>
         </table>      
         <br/>

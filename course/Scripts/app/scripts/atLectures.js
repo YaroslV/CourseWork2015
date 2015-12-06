@@ -3,7 +3,7 @@
 
     app.factory('lectureService',[ '$http', function ($http) {
         var getLectures = function (page, items, orderby) {
-            return $http.get('/api/test/' + page + '/' + items + '/' + orderby);
+            return $http.get('/api/lectures/all');
         };
 
         var getAllDisciplines = function () {

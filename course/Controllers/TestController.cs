@@ -20,66 +20,44 @@ namespace course.Controllers
     [Authorize]
     public class TestController : ApiController
     {
-        private IEnumerable<LectureTest> LectureTests = new List<LectureTest>
+        
+        // GET: 
+        [Route("all")]
+        [HttpGet]
+        public IEnumerable<Lecture> GetByDiscipline()
         {
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Фізика", Date = DateTime.Now , LectureName = "СТВ" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Хімія", Date = DateTime.Now , LectureName = "Білки" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Ресурси", Date = DateTime.Now, LectureName = "Поліномія" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "ФП", Date = DateTime.Now, LectureName = "Техніка безпеки" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Історія", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new LectureTest() {Discipline = "матан", Date =  DateTime.Now, LectureName = "Ще одна безтолкова річ" },
-            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-        };
+            var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+            IEnumerable<Lecture> AllLectures = tutorManager.GetAllLectures();
+           
+            //if (orderby == "bydate")
+            //{
+            //    result = LectureTests
+            //        .Where(l => l.Discipline == discipline)
+            //        .OrderBy(l => l.Date)
+            //        .Skip((page - 1) * itemsperpage)
+            //        .Take(itemsperpage);
+            //}
+            //else if (orderby == "bydiscipline")
+            //{
+            //    result = LectureTests
+            //        .Where(l => l.Discipline == discipline)
+            //        .OrderBy(l => l.Discipline)
+            //        .Skip((page - 1) * itemsperpage)
+            //        .Take(itemsperpage);
+            //}
 
-
-
-
-
-        // GET: api/Test/5
-        [Route("{discipline}/{id:int}/{itemsperpage:int}/{orderby}")]
-        public IEnumerable<LectureTest> GetByDiscipline(string discipline, int page, int itemsperpage, string orderby)
-        {
-            IEnumerable<LectureTest> result = null;
-            if (orderby == "bydate")
-            {
-                result = LectureTests
-                    .Where(l => l.Discipline == discipline)
-                    .OrderBy(l => l.Date)
-                    .Skip((page - 1) * itemsperpage)
-                    .Take(itemsperpage);
-            }
-            else if (orderby == "bydiscipline")
-            {
-                result = LectureTests
-                    .Where(l => l.Discipline == discipline)
-                    .OrderBy(l => l.Discipline)
-                    .Skip((page - 1) * itemsperpage)
-                    .Take(itemsperpage);
-            }
-
-            return result;
+            return AllLectures;
         }
 
+
+
+        //TODO get from subject table
         [Route("disciplines")]
         public IEnumerable<string> GetDisciplines()
         {
-            IEnumerable<string> result = LectureTests
-                .Select(l => l.Discipline)
-                .Distinct();
+            var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+            IEnumerable<string> result = tutorManager.GetAllDisciplines();
+                
 
             return result;
 

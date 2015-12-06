@@ -1,6 +1,7 @@
 ﻿using AspNet.Identity.CustomDatabase;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace course.Data
 {
@@ -26,9 +27,31 @@ namespace course.Data
             var res =_database.ExecuteProcedure(command, parameters);
         }
 
-        //public IEnumerable<Lecture> GetAll()
-        //{
+        public IEnumerable<Lecture> GetAll()
+        {
+            string query = "SELECT * FROM TABLE(GET_MANY_LECTURES)";
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            var result = _database.Query(query, param)
+                .Select(l => new Lecture()
+                {
+                    LectureId = l["LECTUREID"],
+                    LectureText = l["LECTURENAME"],
+                    Subject = l["LECTURESUBJECT"],
+                    Date = l["LECTUREDATE"],
+                    TutorId = l["LECTURETUTOR"]
+                });
 
-        //}
+            return result;                            
+        }
+
+        public IEnumerable<string> GetAllSubjects()
+        {
+            string query = "SELECT SUBJECTNAME FROM SUBJECTS";
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            var result = _database.Query(query, param)
+                            .Select(l => l["SUBJECTNAME"]);
+
+            return result;
+        }
     }
 }
