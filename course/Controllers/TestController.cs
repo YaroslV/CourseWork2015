@@ -8,6 +8,11 @@ using course.Models;
 using course.Data;
 using course.Managers;
 using System.Threading.Tasks;
+using System.Web;
+using course.ControllerCustomizations;
+using course.Managers;
+using course.Models;
+using Microsoft.AspNet.Identity;
 
 namespace course.Controllers
 {
@@ -15,29 +20,29 @@ namespace course.Controllers
     [Authorize]
     public class TestController : ApiController
     {
-        private IEnumerable<Lecture> lectures = new List<Lecture>
+        private IEnumerable<LectureTest> LectureTests = new List<LectureTest>
         {
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Фізика", Date = DateTime.Now , LectureName = "СТВ" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Хімія", Date = DateTime.Now , LectureName = "Білки" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Ресурси", Date = DateTime.Now, LectureName = "Поліномія" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "ФП", Date = DateTime.Now, LectureName = "Техніка безпеки" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Історія", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
-            new Lecture() {Discipline = "матан", Date =  DateTime.Now, LectureName = "Ще одна безтолкова річ" },
-            new Lecture() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Фізика", Date = DateTime.Now , LectureName = "СТВ" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Хімія", Date = DateTime.Now , LectureName = "Білки" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Ресурси", Date = DateTime.Now, LectureName = "Поліномія" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "ФП", Date = DateTime.Now, LectureName = "Техніка безпеки" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Історія", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
+            new LectureTest() {Discipline = "матан", Date =  DateTime.Now, LectureName = "Ще одна безтолкова річ" },
+            new LectureTest() {Discipline = "Правознавство", Date = DateTime.Now, LectureName = "Кримінальний кодекс" },
         };
 
 
@@ -46,12 +51,12 @@ namespace course.Controllers
 
         // GET: api/Test/5
         [Route("{discipline}/{id:int}/{itemsperpage:int}/{orderby}")]
-        public IEnumerable<Lecture> GetByDiscipline(string discipline, int page, int itemsperpage, string orderby)
+        public IEnumerable<LectureTest> GetByDiscipline(string discipline, int page, int itemsperpage, string orderby)
         {
-            IEnumerable<Lecture> result = null;
+            IEnumerable<LectureTest> result = null;
             if (orderby == "bydate")
             {
-                result = lectures
+                result = LectureTests
                     .Where(l => l.Discipline == discipline)
                     .OrderBy(l => l.Date)
                     .Skip((page - 1) * itemsperpage)
@@ -59,7 +64,7 @@ namespace course.Controllers
             }
             else if (orderby == "bydiscipline")
             {
-                result = lectures
+                result = LectureTests
                     .Where(l => l.Discipline == discipline)
                     .OrderBy(l => l.Discipline)
                     .Skip((page - 1) * itemsperpage)
@@ -72,7 +77,7 @@ namespace course.Controllers
         [Route("disciplines")]
         public IEnumerable<string> GetDisciplines()
         {
-            IEnumerable<string> result = lectures
+            IEnumerable<string> result = LectureTests
                 .Select(l => l.Discipline)
                 .Distinct();
 
@@ -97,16 +102,50 @@ namespace course.Controllers
         [HttpPost]
         public  async Task<IHttpActionResult> ActivateTutor([FromBody]TutorToActivate tutor)
         {
-                      
-
+            var tutorManager =
+                new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+            tutorManager.ActivateTutor(tutor.TutorId);
             return Ok();
         }
 
 
-        // POST: api/Test
-        public void Post([FromBody]string value)
+        [Authorize(Roles="Tutor")]
+        [HttpPost]
+        [Route("addlecture")]
+        public async Task<HttpResponseMessage> Post()
         { 
+            if(!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
 
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new CustomMultipartFormDataStreamProvider(root);
+
+
+            try {
+                await Request.Content.ReadAsMultipartAsync(provider);
+                
+                string pathToFile = provider.FileData.First().LocalFileName;
+                string subject = provider.FormData["subject"];
+                string LectureName = provider.FormData["name"];
+                var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+                tutorManager.SaveLecture(new Lecture()
+                {
+                    LectureId = Guid.NewGuid().ToString(),
+                    FilePath = pathToFile,
+                    Subject = subject,
+                    LectureText = LectureName,
+                    TutorId = User.Identity.GetUserId()
+                });
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch(Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+            
         }
 
         // PUT: api/Test/5

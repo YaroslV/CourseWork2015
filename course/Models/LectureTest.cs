@@ -2,7 +2,7 @@
 
 namespace course.Models
 {
-    public class Lecture
+    public class LectureTest
     {
         public string LectureName { get; set; }
         public DateTime Date { get; set; }

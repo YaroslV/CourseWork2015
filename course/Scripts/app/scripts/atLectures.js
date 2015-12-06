@@ -15,16 +15,17 @@
         }
 
         var activateTutor = function (id) {
-            return $http.post('/api/lectures/tutoractivation', {"TutorId":id});
-            
+            return $http.post('/api/lectures/tutoractivation', {"TutorId":id});            
         }
+
+       
 
         return {
             getLectures: getLectures,
             getAllDisciplines: getAllDisciplines,
             getTutorRequests: getTutorRequests,
             activateTutor: activateTutor
-
+           
         };
     }]);
 

@@ -15,5 +15,6 @@ namespace course.Data
 
         //temporary will be fixed
         Task<IEnumerable<RequestInfo>> GetAllRequestInfos();
+        void ActivateTutor(string tutorid);
     }
 }

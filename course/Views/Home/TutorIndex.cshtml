@@ -3,5 +3,16 @@
     ViewBag.Title = "TutorIndex";
 }
 
-<h2>TutorIndex</h2>
+<h2>Викладач</h2>
+
+<div ng-app="atTutorLectures">    
+    <ng-view></ng-view>
+</div>
+
+@section  scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/app/scripts/atTutorLectures.js"></script>
+    <script src="~/Scripts/app/scripts/TutorController.js"></script>
+}
 

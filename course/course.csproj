@@ -174,11 +174,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ControllerCustomizations\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Data\IStore.cs" />
+    <Compile Include="Data\Lecture.cs" />
+    <Compile Include="Data\LectureTable.cs" />
     <Compile Include="Data\TutorRequestStore.cs" />
     <Compile Include="Data\TutorRequest.cs" />
     <Compile Include="Global.asax.cs">
@@ -190,7 +193,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ControllerViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Lecture.cs" />
+    <Compile Include="Models\LectureTest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -209,7 +212,10 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\scripts\AdminController.js" />
     <Content Include="Scripts\app\scripts\atLectures.js" />
+    <Content Include="Scripts\app\scripts\atTutorLectures.js" />
     <Content Include="Scripts\app\scripts\StudentController.js" />
+    <Content Include="Scripts\app\views\addNewLecture.html" />
+    <Content Include="Scripts\app\views\tutorLectures.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -300,7 +306,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49780</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49780/</IISUrl>
+          <IISUrl>http://localhost:55555/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,0 +1,19 @@
+﻿<div ng-controller="TutorController">
+    
+    <div class="form-group">
+        <label >Назва лекції</label>
+        <textarea ng-model="ctrlBag.lectureName" class="form-control" ></textarea>
+    </div>
+    <div class="form-group">
+        <label >Назва предмету</label>
+        <input ng-model="ctrlBag.lectureSubject" class="form-control"  />
+    </div>
+    <div class="form-group">
+        <label >Завантажити матеріали</label>
+        <input type="file" file-model="ctrlBag.fileToUpload" class="form-control" id="fileField" />
+    </div>
+
+    <button ng-click="publishLecture()" class="btn btn-default">
+        Готово
+    </button>
+</div>

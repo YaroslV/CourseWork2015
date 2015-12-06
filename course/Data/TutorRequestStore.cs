@@ -62,5 +62,13 @@ namespace course.Data
                 _database = null;
             }
         }
+
+        public void ActivateTutor(string tutorid)
+        {
+            string query = "activate_tutor";
+            Dictionary<string,Tuple<object,string>> paramaters = new Dictionary<string, Tuple<object,string>>();
+            paramaters.Add("TUTORID", new Tuple<object, string>(tutorid, "VARCHAR2"));
+            _database.ExecuteProcedure(query, paramaters);
+        }
     }
 }

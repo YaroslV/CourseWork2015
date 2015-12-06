@@ -11,9 +11,12 @@ namespace course.Managers
     public class TutorManager<Store,T> where Store : class, Data.IStore<T> where T : class
     {
         private Store _store;
+        private LectureTable _lectureTable;
+        
         public TutorManager(Store store)
         {
             _store = store;
+            _lectureTable = new LectureTable(new AspNet.Identity.CustomDatabase.CustomDatabase());
         }
 
 
@@ -27,6 +30,16 @@ namespace course.Managers
         {
             var res = await _store.GetAllRequestInfos();
             return res;
+        }
+
+        public void ActivateTutor(string tId)
+        {
+            _store.ActivateTutor(tId);
+        }
+
+        public void SaveLecture(Lecture lecture)
+        {
+            _lectureTable.Insert(lecture);
         }
     }
 }
