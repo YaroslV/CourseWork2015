@@ -29,4 +29,19 @@
         };
     }]);
 
+    var config = function ($routeProvider) {
+        $routeProvider
+        .when('/listall', {
+            templateUrl: '/Scripts/app/views/studentLectures.html'
+        })
+        .when('/more/:id', {
+            templateUrl: '/Scripts/app/views/moreAboutLecture.html'
+        })
+        .otherwise(
+            {redirectTo: '/listall'}
+        );
+    };
+
+    app.config(config);
+
 }());

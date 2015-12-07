@@ -5,30 +5,7 @@
 <h2>Всі лекції</h2>
 
 <div ng-app="atLectures">
-    <div ng-controller="StudentController">
-        <input ng-model="searchText" ng-change="doSearch()" />            
-        <select ng-model="selectedDiscipline">
-            <option ng-repeat="discipline in allDisciplines" value="{{discipline}}">{{discipline}}</option>
-        </select> 
-        <table class="table">
-            <tr>
-                <th>Назва лекції</th>
-                <th>Предмет</th>
-                <th>Дата</th>
-                <th>Контакти викладача</th>
-                <th></th>
-            </tr>
-            <tr ng-repeat="lecture in lectures" >
-                <td>{{lecture.LectureText}}</td>
-                <td>{{lecture.Subject}}</td>
-                <td>{{lecture.Date}}</td>                
-                <td>{{lecture.TutorId}}</td>
-                <td><a href="#/more/{{lecture.LectureId}}" class="btn btn-default">Більше</a></td>
-            </tr>
-        </table>      
-        <br/>
-        <button ng-click="moreLectures()" class="btn btn-default">Більше лекцій</button>
-    </div>
+   <ng-view></ng-view>
 </div>
 
 @section  scripts{
@@ -36,4 +13,5 @@
     <script src="~/Scripts/angular-route.min.js"></script>
     <script src="~/Scripts/app/scripts/atLectures.js"></script>
     <script src="~/Scripts/app/scripts/StudentController.js"></script>
+    <script src="~/Scripts/app/scripts/moreAboutLectureController.js"></script>
 }
