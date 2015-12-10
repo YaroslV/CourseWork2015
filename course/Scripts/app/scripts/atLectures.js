@@ -8,15 +8,19 @@
 
         var getAllDisciplines = function () {
             return $http.get('/api/lectures/disciplines');
-        }
+        };
 
         var getTutorRequests = function () {
             return $http.get('/api/lectures/tutorrequests');
-        }
+        };
 
         var activateTutor = function (id) {
             return $http.post('/api/lectures/tutoractivation', {"TutorId":id});            
-        }
+        };
+
+        var downloadFile = function (fileId) {
+            return $http.get('/api/lectures/getfile/'+ fileId);
+        };
 
        
 
@@ -24,7 +28,8 @@
             getLectures: getLectures,
             getAllDisciplines: getAllDisciplines,
             getTutorRequests: getTutorRequests,
-            activateTutor: activateTutor
+            activateTutor: activateTutor,
+            getFile: downloadFile
            
         };
     }]);

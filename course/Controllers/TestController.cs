@@ -13,6 +13,8 @@ using course.ControllerCustomizations;
 using course.Managers;
 using course.Models;
 using Microsoft.AspNet.Identity;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace course.Controllers
 {
@@ -20,15 +22,16 @@ namespace course.Controllers
     [Authorize]
     public class TestController : ApiController
     {
-        
-        // GET: 
+
+        // GET:
+        [Authorize(Roles = "Student,Tutor")]
         [Route("all")]
         [HttpGet]
         public IEnumerable<Lecture> GetByDiscipline()
         {
             var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
             IEnumerable<Lecture> AllLectures = tutorManager.GetAllLectures();
-           
+
             //if (orderby == "bydate")
             //{
             //    result = LectureTests
@@ -50,6 +53,30 @@ namespace course.Controllers
         }
 
 
+
+        [Authorize(Roles = "Student,Tutor")]
+        [Route("getfile/{fileid}")]
+        [HttpGet]
+        public HttpResponseMessage GetFile(string fileid)
+        {
+            var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+            var path = tutorManager.GetFilePath(fileid);
+            var namePos = path.LastIndexOf('\\') + 1;
+            var fileName = path.Substring(namePos);
+            if (!File.Exists(path))
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,"Can't load file"));
+
+            var result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(path, FileMode.Open);
+            
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            result.Content.Headers.ContentDisposition.FileName = fileName;
+            
+            
+            //result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/odt");
+            return result; 
+        }
 
         //TODO get from subject table
         [Route("disciplines")]

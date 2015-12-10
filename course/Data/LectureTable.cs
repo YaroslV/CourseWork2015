@@ -53,5 +53,25 @@ namespace course.Data
 
             return result;
         }
+
+        public  string GetFilePath(string id)
+        {
+            var query = "SELECT FILEPATH FROM LECTURES WHERE LECTUREID = :id";
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param.Add(":id", id);
+            var result = _database.QueryValue(query,param);
+
+            return (string)result;
+        }
+
+        public string GetFileName(string id)
+        {
+            var query = "SELECT SUBJECTNAME FROM LECTURES WHERE SUBJECTID = :id";
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param.Add(":id", id);
+            var result = _database.QueryValue(query, param);
+
+            return (string)result;
+        }
     }
 }

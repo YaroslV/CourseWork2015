@@ -53,5 +53,11 @@ namespace course.Managers
             var res = _lectureTable.GetAllSubjects();
             return res;
         }
+
+        public string GetFilePath(string id)
+        {
+            var res = _lectureTable.GetFilePath(id);
+            return res;
+        }
     }
 }

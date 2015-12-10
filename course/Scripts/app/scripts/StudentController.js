@@ -1,5 +1,7 @@
 ﻿(function (app) {
     app.controller("StudentController", ["$http", "$scope", 'lectureService', function ($http, $scope, lectureService) {
+
+        var lectureStorage;
         $scope.lectures;
         $scope.itemsperpage = 3;
         $scope.allDisciplines;
@@ -27,6 +29,15 @@
             //I need service which will consider tutor, discipline and search text
         };
 
+        $scope.doFilter = function (selected) {
+            var filteredLectures = [];
+            for (var i = 0; i < lectureStorage.length; i++) {
+                if (lectureStorage[i].Subject == selected)
+                    filteredLectures.push(lectureStorage[i]);
+            }
+            $scope.lectures = filteredLectures;
+        };
+
         $scope.moreLectures = function () {
             page = page + 1;
             lectureService.getLectures(page, itemsPerPage, orderBy)
@@ -40,7 +51,8 @@
         
         lectureService.getLectures(page,itemsPerPage, orderBy)
                 .success(function (data) {
-                    $scope.lectures = data;
+                    lectureStorage = data;
+                    $scope.lectures = lectureStorage;
                 }).error(function (data) {
                     $scope.error = "Can't connect tot server";
                 });
