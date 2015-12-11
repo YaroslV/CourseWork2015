@@ -1,11 +1,26 @@
 ﻿<div ng-controller="TutorController">
-    <a href="#/add" class="btn btn-default">Додати лекцію</a>
-    
-    <div class="panel-info">
-     <p>
-        Here will be 
-        all Your lectures.
-    </p>
+    <div class="container">
+        <a href="#/add" class="btn btn-default">Додати лекцію</a>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Назва лекції</th>
+                        <th>Предмет</th>
+                        <th>Дата</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="lecture in allTutorLectures">
+                        <td>{{lecture.LectureText}}</td>
+                        <td>{{lecture.Subject}}</td>
+                        <td>{{lecture.Date}}</td>                        
+                        <td><a href="#/edit/{{lecture.LectureId}}" class="btn btn-default">Редагувати</a></td>
+                        <td><a href="#/delete/{{lecture.LectureId}}" class="btn btn-default">Видалити</a></td>
+                    </tr> 
+                </table>
+            </div>
+        </div>
     </div>
-   
 </div>

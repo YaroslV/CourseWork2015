@@ -44,6 +44,29 @@ namespace course.Data
             return result;                            
         }
 
+        public IEnumerable<Lecture> GetAllByTutorId(string tutorId)
+        {
+            string query = @"SELECT * FROM TABLE(GET_LECTURES_BY_TUTORID(:tutorId))";
+            //Dictionary<string, Tuple<object, string>> parameters = new Dictionary<string, Tuple<object, string>>();
+            //parameters.Add("TUTORID_IN", new Tuple<object, string>(tutorId, "VARCHAR2"));
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                {":tutorId", tutorId }
+            };
+            var result = _database.Query(query, parameters)
+                .Select(l => new Lecture()
+                {
+                    LectureId = l["LECTUREID"],
+                    LectureText = l["LECTURENAME"],
+                    Subject = l["LECTURESUBJECT"],
+                    Date = l["LECTUREDATE"],
+                    TutorId = l["LECTURETUTOR"]
+                });
+
+            return result;
+        }
+
+
         public IEnumerable<string> GetAllSubjects()
         {
             string query = "SELECT SUBJECTNAME FROM SUBJECTS";

@@ -15,6 +15,7 @@ using course.Models;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace course.Controllers
 {
@@ -52,7 +53,29 @@ namespace course.Controllers
             return AllLectures;
         }
 
+        [Authorize(Roles = "Tutor, Student")]
+        [Route("all/tutor")]
+        [HttpGet]
+        public IEnumerable<Lecture> GetByTutor()
+        {
+            string tutorId = User.Identity.GetUserId();
+            if (tutorId == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
 
+            var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+            IEnumerable<Lecture> AllLectures = tutorManager.GetAllLecturesByTutorId(tutorId);
+            return AllLectures;
+        }
+
+        private  string ConvertUTF8ToIso(string input)
+        {
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            Encoding utf8 = Encoding.UTF8;
+            var utfBytes = utf8.GetBytes(input);
+            var isoBytes = Encoding.Convert(utf8, iso, utfBytes);
+            string result = iso.GetString(isoBytes);
+            return result;
+        }
 
         [Authorize(Roles = "Student,Tutor")]
         [Route("getfile/{fileid}")]
@@ -62,7 +85,8 @@ namespace course.Controllers
             var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
             var path = tutorManager.GetFilePath(fileid);
             var namePos = path.LastIndexOf('\\') + 1;
-            var fileName = path.Substring(namePos);
+            var prefileName = path.Substring(namePos);
+            var fileName = ConvertUTF8ToIso(prefileName);
             if (!File.Exists(path))
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,"Can't load file"));
 
@@ -73,7 +97,8 @@ namespace course.Controllers
             result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
             result.Content.Headers.ContentDisposition.FileName = fileName;
             
-            
+
+
             //result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/odt");
             return result; 
         }

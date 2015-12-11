@@ -48,6 +48,12 @@ namespace course.Managers
             return res;
         }
 
+        public IEnumerable<Lecture> GetAllLecturesByTutorId(string tutorId)
+        {
+            var res = _lectureTable.GetAllByTutorId(tutorId);
+            return res;
+        }
+
         public IEnumerable<string> GetAllDisciplines()
         {
             var res = _lectureTable.GetAllSubjects();
@@ -59,5 +65,7 @@ namespace course.Managers
             var res = _lectureTable.GetFilePath(id);
             return res;
         }
+
+
     }
 }

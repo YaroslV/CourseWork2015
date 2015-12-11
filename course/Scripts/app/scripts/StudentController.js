@@ -19,6 +19,7 @@
         lectureService.getAllDisciplines()
             .success(function (data) {
                 $scope.allDisciplines = data;
+                $scope.allDisciplines.push("Всі");
             })
             .error(function (data) {
             });
@@ -30,6 +31,11 @@
         };
 
         $scope.doFilter = function (selected) {
+            if (selected === "Всі") {
+                $scope.lectures = lectureStorage;
+                return;
+            }
+
             var filteredLectures = [];
             for (var i = 0; i < lectureStorage.length; i++) {
                 if (lectureStorage[i].Subject == selected)

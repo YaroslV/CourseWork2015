@@ -37,8 +37,13 @@
             });
         };
 
+        var getTutorLectures = function () {
+            return $http.get('/api/lectures/all/tutor');
+        };
+
         return {
-            uploadLecture: uploadNewLecture
+            uploadLecture: uploadNewLecture,
+            getTutorLectures: getTutorLectures
         };
 
     }]);
@@ -54,10 +59,14 @@
     };
 
     app.config(config);
+
+    //*********************************
+    //          CONTROLLER
+    //*********************************
     app.controller('TutorController', ['$scope', '$location', 'tutorService', function ($scope, $location, tutorService) {
         function checkFile(file) {
-            
-        }
+            //TODO checkfile
+        };
 
         $scope.publishLecture = function () {            
             
@@ -69,23 +78,26 @@
             };
             tutorService.uploadLecture(dataToUpload)
                 .success(function (data) {
-
+                    //TODO
+                    //file upload congratulations
                 })
                 .error(function (data) {
-
+                    //TODO
+                    //uploading failure alert
                 });
-
-
-
         
             $location.path('/list')
         };
 
-       
+        tutorService.getTutorLectures()
+                        .success(function (data) {
+                            $scope.allTutorLectures = data;
+                        })
+                        .error(function (data) {
+                            $scope.errormsg = "Проблеми із з'єднанням";
+                        });
+                        
 
     }]);
-
-   
-
 
 }());
