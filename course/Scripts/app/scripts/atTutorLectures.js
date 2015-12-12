@@ -41,9 +41,14 @@
             return $http.get('/api/lectures/all/tutor');
         };
 
+        var deleteLecture = function (lectureId) {
+            return $http.delete('/api/lectures/delete/'+ lectureId);
+        };
+
         return {
-            uploadLecture: uploadNewLecture,
-            getTutorLectures: getTutorLectures
+            uploadLecture:    uploadNewLecture,
+            getTutorLectures: getTutorLectures,
+            deleteLecture:    deleteLecture
         };
 
     }]);
@@ -87,6 +92,31 @@
                 });
         
             $location.path('/list')
+        };
+
+        var removeById = function (lecId) {
+            for (var i = 0; i < $scope.allTutorLectures.length; i++) {
+                if ($scope.allTutorLectures[i].LectureId == lecId) {
+                    $scope.allTutorLectures.splice(i, 1);
+                    break;
+                }
+            }
+        };
+
+        $scope.deleteLecture = function (lectureId) {
+            var answer = prompt("Ви дійсно бажаєте видалити лекцію", "Так", "Hі");
+            if (answer === "Так") {
+                tutorService.deleteLecture(lectureId)
+                                .success(function (data) {
+                                    //TODO
+                                    //
+                                    removeById(lectureId);
+                                })
+                                .error(function (data) {
+                                    //TODO
+                                    //
+                                });
+            }
         };
 
         tutorService.getTutorLectures()

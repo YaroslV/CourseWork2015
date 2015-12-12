@@ -17,7 +17,7 @@
                         <td>{{lecture.Subject}}</td>
                         <td>{{lecture.Date}}</td>                        
                         <td><a href="#/edit/{{lecture.LectureId}}" class="btn btn-default">Редагувати</a></td>
-                        <td><a href="#/delete/{{lecture.LectureId}}" class="btn btn-default">Видалити</a></td>
+                        <td><button ng-click="deleteLecture(lecture.LectureId)"  class="btn btn-default">Видалити</button></td>
                     </tr> 
                 </table>
             </div>

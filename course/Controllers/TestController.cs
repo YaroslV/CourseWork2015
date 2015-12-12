@@ -183,9 +183,12 @@ namespace course.Controllers
         {
         }
 
-        // DELETE: api/Test/5
-        public void Delete(int id)
+        [Authorize(Roles ="Tutor")]
+        [Route("delete/{lectureId}")]
+        public void Delete(string lectureId)
         {
+            var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+            tutorManager.DeleteLecture(lectureId);
         }
     }    
 }

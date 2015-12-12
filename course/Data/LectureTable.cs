@@ -27,6 +27,14 @@ namespace course.Data
             var res =_database.ExecuteProcedure(command, parameters);
         }
 
+        public void Delete(string lectureId)
+        {
+            Dictionary<string, Tuple<object, string>> paramaters = new Dictionary<string, Tuple<object, string>>();
+            paramaters.Add("LECTUREID_IN", new Tuple<object, string>(lectureId,"VARCHAR2"));
+            string command = "DELETE_LECTURE";
+            var res = _database.ExecuteProcedure(command, paramaters);
+        }
+
         public IEnumerable<Lecture> GetAll()
         {
             string query = "SELECT * FROM TABLE(GET_MANY_LECTURES)";

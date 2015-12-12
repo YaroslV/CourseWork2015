@@ -42,6 +42,11 @@ namespace course.Managers
             _lectureTable.Insert(lecture);
         }
 
+        public void DeleteLecture(string lectureId)
+        {
+            _lectureTable.Delete(lectureId);
+        }
+
         public IEnumerable<Lecture> GetAllLectures()
         {
             var res = _lectureTable.GetAll();
