@@ -141,7 +141,7 @@ namespace course.Controllers
 
         [Authorize(Roles="Tutor")]
         [HttpPost]
-        [Route("addlecture")]
+        [Route("add")]
         public async Task<HttpResponseMessage> Post()
         { 
             if(!Request.Content.IsMimeMultipartContent())
@@ -179,8 +179,43 @@ namespace course.Controllers
         }
 
         // PUT: api/Test/5
-        public void Put(int id, [FromBody]string value)
+        [Authorize(Roles ="Tutor")]
+        [HttpPut]
+        [Route("update/{lectureId}")]
+        public async Task<HttpResponseMessage> Put(string lectureId)
         {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new CustomMultipartFormDataStreamProvider(root);
+
+
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                string pathToFile = provider.FileData.First().LocalFileName;
+                string subject = provider.FormData["subject"];
+                string LectureName = provider.FormData["name"];
+                var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+                tutorManager.UpdateLecture(new Lecture()
+                {
+                    LectureId = Guid.NewGuid().ToString(),
+                    FilePath = pathToFile,
+                    Subject = subject,
+                    LectureText = LectureName,
+                    TutorId = User.Identity.GetUserId()
+                });
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
         }
 
         [Authorize(Roles ="Tutor")]

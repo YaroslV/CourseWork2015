@@ -27,6 +27,11 @@ namespace course.Data
             var res =_database.ExecuteProcedure(command, parameters);
         }
 
+        public void Update(Lecture lecture)
+        {
+            //TODO
+        }
+
         public void Delete(string lectureId)
         {
             Dictionary<string, Tuple<object, string>> paramaters = new Dictionary<string, Tuple<object, string>>();

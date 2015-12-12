@@ -21,7 +21,26 @@
         var uploadNewLecture = function (formData) {
             return $http({
                 method: 'POST',
-                url: '/api/lectures/addlecture',
+                url: '/api/lectures/add',
+                data: formData,
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: function (data) {
+                    var fd = new FormData();
+                    fd.append("subject", data.subject);
+                    fd.append("name", data.name);
+                    fd.append("file", data.file);
+
+                    return fd;
+                }
+            });
+        };
+
+        var updateLecture = function (formData, lectureId) {
+            return $http({
+                method: 'PUT',
+                url: '/api/lectures/update/' + lectureId,
                 data: formData,
                 headers: {
                     'Content-Type': undefined
@@ -48,7 +67,8 @@
         return {
             uploadLecture:    uploadNewLecture,
             getTutorLectures: getTutorLectures,
-            deleteLecture:    deleteLecture
+            deleteLecture:    deleteLecture,
+            updateLecture:    updateLecture
         };
 
     }]);
@@ -59,6 +79,8 @@
         { templateUrl: '/Scripts/app/views/tutorLectures.html' })
         .when('/add',
         { templateUrl: '/Scripts/app/views/addNewLecture.html' })
+        .when('/update/:id',
+        { templateUrl: '/Scripts/app/views/updateLecture.html' })
         .otherwise(
         { redirectTo: '/list'});
     };
@@ -102,6 +124,8 @@
                 }
             }
         };
+
+        
 
         $scope.deleteLecture = function (lectureId) {
             var answer = prompt("Ви дійсно бажаєте видалити лекцію", "Так", "Hі");

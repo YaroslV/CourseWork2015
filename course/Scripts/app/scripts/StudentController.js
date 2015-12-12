@@ -60,7 +60,7 @@
                     lectureStorage = data;
                     $scope.lectures = lectureStorage;
                 }).error(function (data) {
-                    $scope.error = "Can't connect tot server";
+                    $scope.error = "Can't connect to server";
                 });
     }]);
 

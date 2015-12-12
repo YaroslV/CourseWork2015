@@ -213,12 +213,14 @@
     <Content Include="Scripts\app\scripts\AdminController.js" />
     <Content Include="Scripts\app\scripts\atLectures.js" />
     <Content Include="Scripts\app\scripts\atTutorLectures.js" />
+    <Content Include="Scripts\app\scripts\LectureUpdateController.js" />
     <Content Include="Scripts\app\scripts\moreAboutLectureController.js" />
     <Content Include="Scripts\app\scripts\StudentController.js" />
     <Content Include="Scripts\app\views\addNewLecture.html" />
     <Content Include="Scripts\app\views\moreAboutLecture.html" />
     <Content Include="Scripts\app\views\studentLectures.html" />
     <Content Include="Scripts\app\views\tutorLectures.html" />
+    <Content Include="Scripts\app\views\updateLecture.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />

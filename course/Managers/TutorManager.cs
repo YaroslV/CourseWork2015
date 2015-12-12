@@ -47,6 +47,11 @@ namespace course.Managers
             _lectureTable.Delete(lectureId);
         }
 
+        public void UpdateLecture(Lecture lecture)
+        {
+            _lectureTable.Update(lecture);
+        }
+
         public IEnumerable<Lecture> GetAllLectures()
         {
             var res = _lectureTable.GetAll();
@@ -70,7 +75,5 @@ namespace course.Managers
             var res = _lectureTable.GetFilePath(id);
             return res;
         }
-
-
     }
 }
