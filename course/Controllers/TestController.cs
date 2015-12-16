@@ -67,7 +67,7 @@ namespace course.Controllers
             return AllLectures;
         }
 
-        private  string ConvertUTF8ToIso(string input)
+        private string ConvertUTF8ToIso(string input)
         {
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             Encoding utf8 = Encoding.UTF8;
@@ -88,19 +88,19 @@ namespace course.Controllers
             var prefileName = path.Substring(namePos);
             var fileName = ConvertUTF8ToIso(prefileName);
             if (!File.Exists(path))
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,"Can't load file"));
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Can't load file"));
 
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(path, FileMode.Open);
-            
+
             result.Content = new StreamContent(stream);
             result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
             result.Content.Headers.ContentDisposition.FileName = fileName;
-            
+
 
 
             //result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/odt");
-            return result; 
+            return result;
         }
 
         //TODO get from subject table
@@ -109,10 +109,23 @@ namespace course.Controllers
         {
             var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
             IEnumerable<string> result = tutorManager.GetAllDisciplines();
-                
+
 
             return result;
 
+        }
+
+        [Authorize(Roles = "Tutor")]
+        [Route("{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetById(string id)
+        {
+            var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
+            Lecture result = tutorManager.GetLectureInfoById(id);
+            if (result != null)
+                return Request.CreateResponse<Lecture>(HttpStatusCode.OK,result);
+
+            return Request.CreateResponse(HttpStatusCode.NotFound);            
         }
 
         [Authorize(Roles ="Admin")]
@@ -178,7 +191,7 @@ namespace course.Controllers
             
         }
 
-        // PUT: api/Test/5
+        
         [Authorize(Roles ="Tutor")]
         [HttpPut]
         [Route("update/{lectureId}")]

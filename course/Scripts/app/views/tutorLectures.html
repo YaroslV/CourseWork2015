@@ -8,16 +8,16 @@
                     <tr>
                         <th>Назва лекції</th>
                         <th>Предмет</th>
-                        <th>Дата</th>
+                        <th>Дата</th>                        
                         <th></th>
                         <th></th>
                     </tr>
                     <tr ng-repeat="lecture in allTutorLectures">
                         <td>{{lecture.LectureText}}</td>
                         <td>{{lecture.Subject}}</td>
-                        <td>{{lecture.Date}}</td>                        
-                        <td><a href="#/update/{{lecture.LectureId}}" class="btn btn-default">Редагувати</a></td>
+                        <td>{{lecture.Date}}</td>                                               
                         <td><button ng-click="deleteLecture(lecture.LectureId)"  class="btn btn-default">Видалити</button></td>
+                        <td><a ng-href="#/update/{{lecture.LectureId}}" class="btn btn-default">Редагувати</a></td>
                     </tr> 
                 </table>
             </div>
