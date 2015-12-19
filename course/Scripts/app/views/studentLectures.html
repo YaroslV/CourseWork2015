@@ -2,9 +2,10 @@
     <h2>Всі лекції</h2>
     <br/>
     
-    <select ng-model="selectedDiscipline">
-        <option ng-repeat="discipline in allDisciplines" value="{{discipline}}" ng-click="doFilter(discipline)">{{discipline}}</option>
-    </select>
+        <select ng-model="selectedDiscipline">
+            <option ng-repeat="discipline in allDisciplines" value="{{discipline}}" ng-click="doFilter(discipline)">{{discipline}}</option>
+        </select>
+    
     <table class="table">
         <tr>
             <th>Назва лекції</th>

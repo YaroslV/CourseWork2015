@@ -210,17 +210,18 @@ namespace course.Controllers
             {
                 await Request.Content.ReadAsMultipartAsync(provider);
 
-                string pathToFile = provider.FileData.First().LocalFileName;
+                string pathToFile = provider.FileData.FirstOrDefault()?.LocalFileName;
+                if (pathToFile == null)
+                    pathToFile = "NULL";
                 string subject = provider.FormData["subject"];
                 string LectureName = provider.FormData["name"];
                 var tutorManager = new TutorManager<TutorRequestStore, TutorRequest>(new TutorRequestStore(new ApplicationDbContext()));
                 tutorManager.UpdateLecture(new Lecture()
                 {
-                    LectureId = Guid.NewGuid().ToString(),
+                    LectureId = lectureId,
                     FilePath = pathToFile,
                     Subject = subject,
-                    LectureText = LectureName,
-                    TutorId = User.Identity.GetUserId()
+                    LectureText = LectureName,                    
                 });
 
                 return Request.CreateResponse(HttpStatusCode.OK);

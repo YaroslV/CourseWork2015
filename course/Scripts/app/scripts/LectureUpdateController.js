@@ -14,6 +14,7 @@
                 $scope.ctrlBag.lectureName = data.LectureText;
                 $scope.ctrlBag.lectureSubject = data.Subject;
                 $scope.ctrlBag.lectureFileName = data.FilePath;
+                
             })
             .error(function (data) {
 
@@ -30,7 +31,7 @@
 
             tutorService.updateLecture(dataToUpdate, lectureId)
             .success(function (data) {
-
+                $location.path('/list');
             })
             .error(function (data) {
 
@@ -40,7 +41,4 @@
 
 
     }]);
-
-
-
 }(angular.module('atTutorLectures')));

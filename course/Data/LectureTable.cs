@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Oracle.ManagedDataAccess.Client;
+
 namespace course.Data
 {
     public class LectureTable
@@ -16,26 +18,33 @@ namespace course.Data
 
         public void Insert(Lecture lecture)
         {
-            Dictionary<string,Tuple<object, string>> parameters = new Dictionary<string, Tuple<object,string>>();
-            parameters.Add("LECTUREID_IN",new Tuple<object, string>(lecture.LectureId, "VARCHAR2"));
-            parameters.Add("TUTORID_IN", new Tuple<object, string>(lecture.TutorId, "VARCHAR2"));
-            parameters.Add("LECTURETXT_IN",new Tuple<object, string>( lecture.LectureText, "CLOB"));            
-            parameters.Add("FILEPATH_IN",new Tuple<object, string> (lecture.FilePath, "VARCHAR2"));
-            parameters.Add("SUBJECTID_IN" ,new Tuple<object, string>(Guid.NewGuid().ToString(), "VARCHAR2"));
-            parameters.Add("SUBJECT_IN",new Tuple<object, string>(lecture.Subject, "VARCHAR2") );
+            Dictionary<string,Tuple<object,OracleDbType>> parameters = new Dictionary<string, Tuple<object,OracleDbType>>();
+            parameters.Add("LECTUREID_IN",new Tuple<object,OracleDbType>(lecture.LectureId, OracleDbType.Varchar2));
+            parameters.Add("TUTORID_IN", new Tuple<object,OracleDbType>(lecture.TutorId, OracleDbType.Varchar2));
+            parameters.Add("LECTURETXT_IN",new Tuple<object,OracleDbType>( lecture.LectureText, OracleDbType.Clob));            
+            parameters.Add("FILEPATH_IN",new Tuple<object,OracleDbType> (lecture.FilePath, OracleDbType.Varchar2));
+            parameters.Add("SUBJECTID_IN" ,new Tuple<object,OracleDbType>(Guid.NewGuid().ToString(), OracleDbType.Varchar2));
+            parameters.Add("SUBJECT_IN",new Tuple<object,OracleDbType>(lecture.Subject, OracleDbType.Varchar2) );
             string command = "ADD_LECTURE";
             var res =_database.ExecuteProcedure(command, parameters);
         }
 
         public void Update(Lecture lecture)
         {
-            //TODO
+            Dictionary<string, Tuple<object, OracleDbType>> parameters = new Dictionary<string, Tuple<object, OracleDbType>>();                        
+            parameters.Add("LECTURENAME_IN", new Tuple<object, OracleDbType>(lecture.LectureText, OracleDbType.Clob));
+            parameters.Add("LECTUREFILE_IN", new Tuple<object, OracleDbType>(lecture.FilePath, OracleDbType.Varchar2));                        
+            parameters.Add("LECTURESUBJECT_IN", new Tuple<object, OracleDbType>(lecture.Subject, OracleDbType.Varchar2));
+            parameters.Add("LECTUREID_IN", new Tuple<object, OracleDbType>(lecture.LectureId, OracleDbType.Varchar2));
+            parameters.Add("SUBJECTID_IN", new Tuple<object, OracleDbType>(Guid.NewGuid().ToString(), OracleDbType.Varchar2));
+            string command = "UPDATE_LECTURE";
+            var res = _database.ExecuteProcedure(command, parameters);
         }
 
-        public void Delete(string lectureId)
+        public void Delete(string lectureId)    
         {
-            Dictionary<string, Tuple<object, string>> paramaters = new Dictionary<string, Tuple<object, string>>();
-            paramaters.Add("LECTUREID_IN", new Tuple<object, string>(lectureId,"VARCHAR2"));
+            Dictionary<string, Tuple<object,OracleDbType>> paramaters = new Dictionary<string, Tuple<object,OracleDbType>>();
+            paramaters.Add("LECTUREID_IN", new Tuple<object,OracleDbType>(lectureId,OracleDbType.Varchar2));
             string command = "DELETE_LECTURE";
             var res = _database.ExecuteProcedure(command, paramaters);
         }
@@ -67,10 +76,10 @@ namespace course.Data
             };
             var result = _database.Query(query, parameters)
                 .Select(l => new Lecture()
-                {                    
+                {
                     LectureText = l["LECTURENAME"],
                     Subject = l["LECTURESUBJECT"],
-                    FilePath = l["LECTUREFILE"]                    
+                    FilePath = l["LECTUREFILE"].Substring(l["LECTUREFILE"].LastIndexOf('\\') + 1)                 
                 })
                 .FirstOrDefault();
 

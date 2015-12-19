@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using AspNet.Identity.CustomDatabase;
 using course.Models;
+using Oracle.ManagedDataAccess.Client;
 
 namespace course.Data
 {
@@ -66,8 +67,8 @@ namespace course.Data
         public void ActivateTutor(string tutorid)
         {
             string query = "activate_tutor";
-            Dictionary<string,Tuple<object,string>> paramaters = new Dictionary<string, Tuple<object,string>>();
-            paramaters.Add("TUTORID", new Tuple<object, string>(tutorid, "VARCHAR2"));
+            Dictionary<string,Tuple<object,OracleDbType>> paramaters = new Dictionary<string, Tuple<object,OracleDbType>>();
+            paramaters.Add("TUTORID", new Tuple<object, OracleDbType>(tutorid, OracleDbType.Varchar2));
             _database.ExecuteProcedure(query, paramaters);
         }
     }
